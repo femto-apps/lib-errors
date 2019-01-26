@@ -1,20 +1,47 @@
-const caller = require('caller')
-const fs = require('fs')
 const format = require('string-template')
 const path = require('path')
+const caller = require('caller')
+const fs = require('fs')
 
-class Errors {
-    constructor(errorFile) {
-        const errors = JSON.parse(fs.readFileSync(path.resolve(path.dirname(caller()), errorFile), 'utf8'))
+module.exports = function(arg) {
+    if (typeof arg === 'string') {
+        const errorsPath = path.resolve(path.dirname(caller()), arg)
+        const errorsText = fs.readFileSync(errorsPath, 'utf8')
+        const errorsData = JSON.parse(errorsText)
 
-        return function(res) {
-            res.error = function(code, context) {
-                const error = errors[code]
+        let errors = {} 
+        for (let errorCode in errorsData) {
+            const error = errorsData[errorCode]
 
-                res.status(error.code).json({ error: { code, msg: format(error.msg, context), context }})
+            let Errors = class {
+                constructor(context) {
+                    this.error = {
+                        code: error.code,
+                        msg: format(error.msg, context),
+                        context
+                    }
+                }
             }
+
+            Object.defineProperty(Errors, 'name', { value: errorCode })
+            Object.defineProperty(Errors.prototype, 'isError', { value: true, enumerable: false })
+            errors[errorCode] = Errors
+        }
+
+        return errors
+    }
+
+    if (typeof arg === 'object') {
+        const _json = arg.json
+        const _status = arg.status
+        arg.json = function(data) {
+            
+            if (data.isError) {
+                _status.call(this, data.error.code)
+                return _json.call(this, data)
+            }
+
+            _json.call(this, data)
         }
     }
 }
-
-module.exports = Errors

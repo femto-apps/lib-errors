@@ -1,17 +1,31 @@
 const express = require('express')
 const app = express()
 
-const Errors = require('../')
-const errors = new Errors('errors.json')
+const { ERRNOTFOUND } = require('../')('errors.json')
+
+function example(shouldError) {
+    if (shouldError) {
+        return new ERRNOTFOUND({ file: 'test.txt' })
+    }
+
+    return { data: 'hello' }
+}
 
 app.use('/api', (req, res, next) => {
-    errors(res)
-    
+    require('../')(res)
     next()
 })
 
-app.get('/api/test', (req, res) => {
-    res.error('ERRNOTFOUND', { file: 'test.txt' })
+app.get('/api/error', (req, res) => {
+    const value = example(true)
+
+    res.json(value)
 })
 
-app.listen(3010, () => console.log('listening on port 3000'))
+app.get('/api/okay', (req, res) => {
+    const value = example(false)
+
+    res.json(value)
+})
+
+app.listen(3010, () => console.log('listening on port 3010'))
