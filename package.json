@@ -1,0 +1,24 @@
+{
+  "name": "errors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/femto-host/errors.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/femto-host/errors/issues"
+  },
+  "homepage": "https://github.com/femto-host/errors#readme",
+  "dependencies": {
+    "caller": "^1.0.1",
+    "string-template": "^1.0.0"
+  }
+}

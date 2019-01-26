@@ -1,0 +1,6 @@
+{
+    "ERRNOTFOUND": {
+        "msg": "File {file} was not found.",
+        "code": 404
+    }
+}
