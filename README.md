@@ -4,7 +4,7 @@ An opinionated library to help you handle errors in APIs.
 
 #### Usage
 
-An index file:
+An example index file:
 
 ```javascript
 // require the module
@@ -25,7 +25,7 @@ app.get('/api/test', (req, res) => {
 })
 ```
 
-An error file:
+An example error file:
 
 ```json
 {
