@@ -1,7 +1,7 @@
 {
   "name": "@femto-host/errors",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple JavaScript library to handle errors in APIs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,9 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/femto-host/errors.git"
   },
-  "keywords": [],
+  "keywords": ["error-handling", "api-errors"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/femto-host/errors/issues"
   },
