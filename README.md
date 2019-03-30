@@ -21,7 +21,7 @@ app.use('/api', (req, res, next) => {
 
 // register errors.
 app.get('/api/test', (req, res) => {
-    res.error('ERRNOFOUND', { file: 'test.txt' })
+    res.error('ERRNOTFOUND', { file: 'test.txt' })
 })
 ```
 
