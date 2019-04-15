@@ -1,5 +1,5 @@
 {
-    "ERRNOTFOUND": {
+    "ERR_CONSUMER_SAVE": {
         "msg": "File {file} was not found.",
         "code": 404
     }

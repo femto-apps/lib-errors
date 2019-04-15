@@ -1,6 +1,6 @@
 {
   "name": "errors-examples",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "basic.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "string-template": "^1.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@femto-apps/errors",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A simple JavaScript library to handle errors in APIs",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/femto-apps/errors.git"
   },
-  "keywords": ["error-handling", "api-errors"],
+  "keywords": [
+    "error-handling",
+    "api-errors"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {

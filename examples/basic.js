@@ -1,31 +1,11 @@
-const express = require('express')
-const app = express()
+const Errors = require('../')('errors.json')
 
-const { ERRNOTFOUND } = require('../')('errors.json')
+function test() {
+    const error = Errors('ERR_CONSUMER_SAVE', { file: 'test.txt' })
 
-function example(shouldError) {
-    if (shouldError) {
-        return new ERRNOTFOUND({ file: 'test.txt' })
-    }
+    console.log(error instanceof Error)
 
-    return { data: 'hello' }
+    throw Errors('ERR_CONSUMER_SAVE', { file: 'test.txt' })
 }
 
-app.use('/api', (req, res, next) => {
-    require('../')(res)
-    next()
-})
-
-app.get('/api/error', (req, res) => {
-    const value = example(true)
-
-    res.json(value)
-})
-
-app.get('/api/okay', (req, res) => {
-    const value = example(false)
-
-    res.json(value)
-})
-
-app.listen(3010, () => console.log('listening on port 3010'))
+test()

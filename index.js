@@ -3,45 +3,32 @@ const path = require('path')
 const caller = require('caller')
 const fs = require('fs')
 
-module.exports = function(arg) {
-    if (typeof arg === 'string') {
-        const errorsPath = path.resolve(path.dirname(caller()), arg)
-        const errorsText = fs.readFileSync(errorsPath, 'utf8')
-        const errorsData = JSON.parse(errorsText)
-
-        let errors = {} 
-        for (let errorCode in errorsData) {
-            const error = errorsData[errorCode]
-
-            let Errors = class {
-                constructor(context) {
-                    this.error = {
-                        code: error.code,
-                        msg: format(error.msg, context),
-                        context
-                    }
-                }
-            }
-
-            Object.defineProperty(Errors, 'name', { value: errorCode })
-            Object.defineProperty(Errors.prototype, 'isError', { value: true, enumerable: false })
-            errors[errorCode] = Errors
-        }
-
-        return errors
-    }
-
-    if (typeof arg === 'object') {
-        const _json = arg.json
-        const _status = arg.status
-        arg.json = function(data) {
-            
-            if (data.isError) {
-                _status.call(this, data.error.code)
-                return _json.call(this, data)
-            }
-
-            _json.call(this, data)
-        }
+class CustomError extends Error {
+    constructor(code, message, context) {
+        super()
+        
+        this.name = code
+        this.message = message
+        this.context = context
     }
 }
+
+function init(filepath) {
+    const errorsPath = path.resolve(path.dirname(caller()), filepath)
+    const errorsText = fs.readFileSync(errorsPath, 'utf8')
+    const errorsData = JSON.parse(errorsText)
+
+    return function(code, context) {
+        const error = errorsData[code]
+        const message = format(error.msg, context)
+
+        const customError = new CustomError(code, message, context)
+        customError.stack = customError.stack.split('\n')
+        customError.stack.splice(1, 1)
+        customError.stack = customError.stack.join('\n')
+
+        return customError
+    }
+}
+
+module.exports = init
